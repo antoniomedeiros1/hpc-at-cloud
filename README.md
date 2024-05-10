@@ -12,6 +12,7 @@ After installing all packages, run the following commando to connect to GCP:
 
 ```sh
 gcloud init
+gcloud auth application-default login
 ```
 
 ### Create HPC environment in GCP
