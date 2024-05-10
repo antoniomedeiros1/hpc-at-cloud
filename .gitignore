@@ -1,0 +1,5 @@
+.ssh
+.terraform
+*.tfstate
+*.tfstate.backup
+*.hcl

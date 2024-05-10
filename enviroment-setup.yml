@@ -1,0 +1,53 @@
+---
+- become: yes
+  hosts: all
+  name: Environment setup
+  tasks:
+    - name: Install Git
+      apt:
+        name: git
+        state: present
+    
+    - name: Clone repository
+      git:
+        repo: https://github.com/antoniomedeiros1/mdf-onda-acustica
+        dest: /home/antonio.medeiros/mdf-onda-acustica
+    
+    - name: Install build tools
+      apt:
+        name: build-essential
+        state: present
+    
+    - name: Download BLCR tarball
+      get_url:
+        url: https://crd.lbl.gov/assets/Uploads/FTG/Projects/CheckpointRestart/downloads/blcr-0.8.5.tar.gz
+        dest: /home/antonio.medeiros/blcr-0.8.5.tar.gz
+    
+    - name: Extract BLCR tarball
+      unarchive:
+        src: /home/antonio.medeiros/blcr-0.8.5.tar.gz
+        dest: /home/antonio.medeiros
+        remote_src: yes
+    
+    - name: Configure BLCR
+      command: ./configure # --prefix=/opt/blcr
+      args:
+        chdir: /home/antonio.medeiros/blcr-0.8.5
+    
+    - name: Download MVAPICH2 tarball
+      get_url:
+        url: http://mvapich.cse.ohio-state.edu/download/mvapich/mv2/mvapich2-2.3.4.tar.gz
+        dest: /home/antonio.medeiros/mvapich2-2.3.4.tar.gz
+    
+    - name: Extract MVAPICH2 tarball
+      unarchive:
+        src: /home/antonio.medeiros/mvapich2-2.3.4.tar.gz
+        dest: /home/antonio.medeiros
+        remote_src: yes
+    
+    - name: Configure MVAPICH2
+      command: ./configure --prefix=/opt/mvapich2 --disable-shared --with-blcr=/usr/local/blcr
+      args:
+        chdir: /home/antonio.medeiros/mvapich2-2.3.4
+    
+
