@@ -2,7 +2,6 @@ resource "google_compute_instance" "hpc-vm" {
   name         = "my-instance"
   machine_type = "n2-standard-2"
   zone         = "us-central1-a"
-  # count = 2
 
   tags = ["hpc"]
 

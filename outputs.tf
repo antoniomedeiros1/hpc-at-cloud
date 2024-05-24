@@ -1,3 +1,3 @@
-output "public_ip" {
-  value = google_compute_address.static_ip.address
+output "nfs_public_ip" {
+  value = module.nfs.nfs_public_ip
 }

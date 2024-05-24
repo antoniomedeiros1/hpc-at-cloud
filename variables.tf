@@ -1,4 +1,7 @@
-variable vm_image {
-  description = "The image to use for the VM"
-  default     = "debian-cloud/debian-11"
+variable "project_id" {
+  description = "The project ID to deploy the resources"
+}
+
+variable "region" {
+  description = "The region to deploy the resources"
 }

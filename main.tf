@@ -1,4 +1,16 @@
+module "vpc" {
+  source = "./modules/vpc"
+}
+
+module "nfs" {
+  source = "./modules/nfs"
+}
+
+module "firewall" {
+  source = "./modules/firewall"
+}
+
 provider "google" {
-  project     = "shaped-crawler-417213"
-  region      = "us-central1"
+  project = var.project_id
+  region  = var.region
 }
