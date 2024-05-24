@@ -1,7 +1,11 @@
+resource "google_compute_address" "static_ip" {
+  name = "hpc-vm"
+}
+
 resource "google_compute_instance" "hpc-vm" {
-  name         = "my-instance"
-  machine_type = "n2-standard-2"
-  zone         = "us-central1-a"
+  name         = var.instance_name
+  machine_type = var.instance_type
+  zone         = var.instance_zone
 
   tags = ["hpc"]
 
@@ -16,7 +20,7 @@ resource "google_compute_instance" "hpc-vm" {
   }
 
   network_interface {
-    network = google_compute_network.vpc_network.name
+    network = var.vpc_name
 
     access_config {
       nat_ip = google_compute_address.static_ip.address
@@ -50,5 +54,4 @@ resource "google_compute_instance" "hpc-vm" {
   # provisioner "local-exec" {
   #   command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u 'antonio.medeiros' -i '${self.network_interface[0].access_config[0].nat_ip},' --private-key .ssh/google_compute_engine -e 'pub_key=.ssh/google_compute_engine.pub' enviroment-setup.yml"
   # }
-
 }

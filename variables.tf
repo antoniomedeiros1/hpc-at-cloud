@@ -5,3 +5,10 @@ variable "project_id" {
 variable "region" {
   description = "The region to deploy the resources"
 }
+
+variable "vpc_name" {
+  description = "The name of the VPC"
+  type        = string
+  default     = "my-vpc"
+  
+}

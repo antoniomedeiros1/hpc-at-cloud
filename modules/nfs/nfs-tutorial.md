@@ -13,6 +13,16 @@ You will also need a Google Cloud account and a project with billing enabled.
 
 ## Step 1: Create Terraform configuration
 
+First we need to create a vpc network for our project. Create a new directory and add a `main.tf` file with the following content:
+
+```hcl
+provider "google" {
+  credentials = file("account.json")
+  project     = "your-project-id"
+  region      = "us-central1"
+}
+
+
 Create a new directory and add a `main.tf` file with the following content:
 
 ```hcl
@@ -49,4 +59,5 @@ resource "google_compute_firewall" "nfs-server" {
     ports    = ["2049"]
   }
 
-  source_ranges = ["
+  source_ranges = ["0.0.0.0/0"]
+}
