@@ -1,5 +1,7 @@
+data "google_client_openid_userinfo" "me" {}
+
 resource "google_compute_address" "static_ip" {
-  name = "hpc-vm"
+  name = "hpc-static-ip-${var.instance_name}"
 }
 
 resource "google_compute_instance" "hpc-vm" {
@@ -7,7 +9,7 @@ resource "google_compute_instance" "hpc-vm" {
   machine_type = var.instance_type
   zone         = var.instance_zone
 
-  tags = ["hpc"]
+  tags = ["hpc", "allow-ssh"]
 
   boot_disk {
     initialize_params {
@@ -25,11 +27,10 @@ resource "google_compute_instance" "hpc-vm" {
     access_config {
       nat_ip = google_compute_address.static_ip.address
     }
-    
   }
 
   metadata = {
-    ssh-keys = "${split("@", data.google_client_openid_userinfo.me.email)[0]}:${tls_private_key.ssh.public_key_openssh}"
+    ssh-keys = "${split("@", data.google_client_openid_userinfo.me.email)[0]}:${var.public_key_openssh}"
   }
 
   metadata_startup_script = "echo hi > /test.txt"

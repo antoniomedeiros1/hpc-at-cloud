@@ -1,3 +1,4 @@
+data "google_client_openid_userinfo" "me" {}
 resource "google_compute_address" "nfs_static_ip" {
   name = "nfs-server"
 }
@@ -21,5 +22,9 @@ resource "google_compute_instance" "nfs" {
     access_config {
       nat_ip = google_compute_address.nfs_static_ip.address
     }
+  }
+
+  metadata = {
+    ssh-keys = "${split("@", data.google_client_openid_userinfo.me.email)[0]}:${var.public_key_openssh}"
   }
 }
