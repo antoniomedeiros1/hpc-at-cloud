@@ -33,7 +33,7 @@ resource "google_compute_instance" "hpc-vm" {
     ssh-keys = "${split("@", data.google_client_openid_userinfo.me.email)[0]}:${var.public_key_openssh}"
   }
 
-  metadata_startup_script = "echo hi > /test.txt"
+  metadata_startup_script = file("${path.module}/startup-script.sh")
 
   scheduling {
     preemptible = true

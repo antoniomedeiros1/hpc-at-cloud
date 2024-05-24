@@ -27,4 +27,6 @@ resource "google_compute_instance" "nfs" {
   metadata = {
     ssh-keys = "${split("@", data.google_client_openid_userinfo.me.email)[0]}:${var.public_key_openssh}"
   }
+
+  metadata_startup_script = file("${path.module}/startup-script.sh")
 }
