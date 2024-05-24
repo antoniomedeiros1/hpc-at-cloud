@@ -15,21 +15,21 @@ module "ssh-key" {
 module "vm-instance-1" {
   source = "./modules/vm-instance"
   vpc_name = module.vpc.vpc_network_name
-  tls_private_key = module.ssh-key.tls_private_key
+  public_key_openssh = module.ssh-key.public_key_openssh
   instance_name = "node-1"
 }
 
 module "vm-instance-2" {
   source = "./modules/vm-instance"
   vpc_name = module.vpc.vpc_network_name
-  tls_private_key = module.ssh-key.tls_private_key
+  public_key_openssh = module.ssh-key.public_key_openssh
   instance_name = "node-2"
 }
 
 module "nfs" {
   source = "./modules/nfs"
   vpc_name = module.vpc.vpc_network_name
-  tls_private_key = module.ssh-key.tls_private_key
+  public_key_openssh = module.ssh-key.public_key_openssh
 }
 
 provider "google" {
