@@ -1,0 +1,28 @@
+---
+- become: yes
+  hosts: nfs-server
+  name: Install NFS server
+  tasks:
+    - name: Install NFS server
+      apt:
+        name: nfs-kernel-server
+        state: present
+
+    - name: Create NFS directory
+      file:
+        path: /mnt/nfs_share
+        state: directory
+        mode: 0777
+
+    - name: Add NFS share to /etc/exports
+      lineinfile:
+        path: /etc/exports
+        line: "/mnt/nfs_share *(rw,sync,no_root_squash,no_subtree_check)"
+        state: present
+
+    - name: Restart NFS server
+      service:
+        name: nfs-kernel-server
+        state: restarted
+
+    

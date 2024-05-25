@@ -1,6 +1,10 @@
+# terraform
 .ssh
 .terraform
 *.tfstate*
 *.hcl
 plan
 *.tfvars
+
+# ansible
+inventory

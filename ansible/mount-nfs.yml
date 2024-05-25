@@ -1,0 +1,23 @@
+---
+- become: yes
+  hosts: nfs-clients
+  name: Mount NFS share
+  tasks:
+    - name: Install NFS client
+      apt:
+        name: nfs-common
+        state: present
+
+    - name: Create NFS mount point
+      file:
+        path: /mnt/nfs_share
+        state: directory
+        mode: 0777
+
+    - name: Mount NFS share
+      mount:
+        path: /mnt/nfs_share
+        src: "34.72.171.245:/mnt/nfs_share"
+        fstype: nfs
+        opts: rw
+        state: mounted
